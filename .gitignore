@@ -22,3 +22,5 @@ setup.php
 /support/scripts/*.php
 /support/scripts/*.sh
 /vendor/
+/themes/
+.gitmodules
