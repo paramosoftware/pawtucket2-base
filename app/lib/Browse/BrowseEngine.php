@@ -3081,13 +3081,9 @@ class BrowseEngine extends BaseFindEngine {
 			//
 
 			foreach($va_facets as $vs_facet_name) {
-				$va_facet_info = $this->getInfoForFacet($vs_facet_name);
-				if (($va_facet_info['type'] === 'field') && (($va_facet_info['field'] ?? null) === 'is_deaccessioned') && ($pa_options['filterDeaccessionedRecords'] ?? null)) { continue; }
-				if (
-					$this->getFacet($vs_facet_name, array_merge($pa_options, array('checkAvailabilityOnly' => true)))
-				) {
+				// Fazer com que todos os facets sejam considerados available
+				// Economiza tempo de carregamento da página de browse
 					$va_facets_with_content[$vs_facet_name] = true;
-				}
 			}
 		}
 
