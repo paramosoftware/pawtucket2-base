@@ -2353,6 +2353,8 @@ class BaseModelWithAttributes extends BaseModel implements ITakesAttributes {
 			if ($vs_force_value = caGetOption('force', $pa_options, false)) {
 				$vs_form_element = caHTMLHiddenInput($vs_fld_name, array('value' => $vs_force_value));
 			} else {
+				unset($va_element["settings"]["useDatePicker"]);
+
 				$vs_form_element = ca_attributes::attributeHtmlFormElement($va_element, $va_element_opts);
 				//
 				// prep element for use as search element
