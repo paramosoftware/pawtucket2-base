@@ -1222,6 +1222,8 @@ function caSetAdvancedSearchFormInView($po_view, $ps_function, $ps_view, $pa_opt
 		});
 		</script>\n";
 	}
+
+	$va_form_elements = array_unique($va_form_elements);
 	
 	$po_view->setVar("form", caFormTag($po_request, "{$ps_function}", $ps_form_name, $ps_controller, 'post', 'multipart/form-data', '_top', array('noCSRFToken' => true, 'disableUnsavedChangesWarning' => true, 'submitOnReturn' => true)));
 	$po_view->setVar("/form", $vs_script.caHTMLHiddenInput("_advancedFormName", array("value" => $ps_function)).caHTMLHiddenInput("_formElements", array("value" => join('|', $va_form_elements))).caHTMLHiddenInput("_advanced", array("value" => 1))."</form>");
