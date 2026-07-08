@@ -162,10 +162,10 @@ class BrowseEngine extends BaseFindEngine {
 			'label_plural' => _t('Searches')
 		);
 		// Add "virtual" relationship types facet - allows filtering of a browse by relationship types in a specific relationships (Eg. only return records that have at least one relationship with one of the specified types)
-		$this->opa_browse_settings['facets']['_reltypes'] = array(
-			'label_singular' => _t('Relationship type'),
-			'label_plural' => _t('Relationship types')
-		);
+		// $this->opa_browse_settings['facets']['_reltypes'] = array(
+		// 	'label_singular' => _t('Relationship type'),
+		// 	'label_plural' => _t('Relationship types')
+		// );
 		$this->_processBrowseSettings();
 
 		$this->opo_ca_browse_cache = new BrowseCache();
