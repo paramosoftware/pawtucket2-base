@@ -162,10 +162,10 @@ class BrowseEngine extends BaseFindEngine {
 			'label_plural' => _t('Searches')
 		);
 		// Add "virtual" relationship types facet - allows filtering of a browse by relationship types in a specific relationships (Eg. only return records that have at least one relationship with one of the specified types)
-		// $this->opa_browse_settings['facets']['_reltypes'] = array(
-		// 	'label_singular' => _t('Relationship type'),
-		// 	'label_plural' => _t('Relationship types')
-		// );
+		$this->opa_browse_settings['facets']['_reltypes'] = array(
+			'label_singular' => _t('Relationship type'),
+			'label_plural' => _t('Relationship types')
+		);
 		$this->_processBrowseSettings();
 
 		$this->opo_ca_browse_cache = new BrowseCache();
@@ -8184,7 +8184,18 @@ if (!($va_facet_info['show_all_when_first_facet'] ?? null) || ($this->numCriteri
 			";
 		} else { // path of length 2, i.e. direct relationship like ca_objects.lot_id = ca_object_lots.lot_id ==> join relative_to and browse target tables directly
 			$va_rel_info = Datamodel::getRelationships($ps_relative_to_table, $t_rel_item->tableName());
-			$va_relative_to_join[] = "INNER JOIN {$ps_relative_to_table} ON {$ps_relative_to_table}.{$va_rel_info[$t_rel_item->tableName()][$ps_relative_to_table][1][1]} = {$t_rel_item->tableName()}.{$va_rel_info[$ps_relative_to_table][$t_rel_item->tableName()][1][1]}";
+
+			// Lame workaround, so we can join again a nxn table whose interstial attribute is the filter to be applied
+
+			if (isset($va_rel_info[$ps_relative_to_table][$t_rel_item->tableName()][1]))
+			{
+				
+				$va_relative_to_join[] = "INNER JOIN {$ps_relative_to_table} ON {$ps_relative_to_table}.{$va_rel_info[$t_rel_item->tableName()][$ps_relative_to_table][1][1]} = {$t_rel_item->tableName()}.{$va_rel_info[$ps_relative_to_table][$t_rel_item->tableName()][1][1]}";
+			}
+			else
+			{
+				$va_relative_to_join[] = "INNER JOIN {$ps_relative_to_table} ON {$ps_relative_to_table}.{$va_rel_info[$t_rel_item->tableName()][$ps_relative_to_table][0][0]} = {$t_rel_item->tableName()}.{$va_rel_info[$ps_relative_to_table][$t_rel_item->tableName()][0][0]}";
+			}
 		}
 
 		return array(
